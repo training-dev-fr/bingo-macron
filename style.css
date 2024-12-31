@@ -59,8 +59,8 @@ body {
 }
 
 .bingo .case .stabilo {
-    width: 200px;
-    height: 200px;
+    width: 50%;
+    height: 50%;
     border-radius: 50%;
     display: flex;
     justify-content: center;
