@@ -27,7 +27,6 @@ body {
     border-radius: 15px;
     margin: 25px;
     color: white;
-    font-size: 28px;
 }
 
 .info {
@@ -50,10 +49,10 @@ body {
 
 .bingo .case {
     display: flex;
-    width: calc(20% - 4px);
+    width: calc(20vw - 20px);
     justify-content: center;
     border: 2px solid white;
-    height: calc(20% - 4px);
+    height: calc(20vw - 20px);
     align-items: center;
     cursor: pointer;
 }
@@ -69,4 +68,41 @@ body {
 
 .bingo .case.active .stabilo {
     background-color: rgba(255, 166, 0, 0.823);
+}
+
+.modal{
+    display: none;
+    position: fixed;
+    top:0px;
+    left: 0px;
+    width:100vw;
+    height:100vh;
+    background-color: #FFFFFF80;
+}
+
+.modal.show{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-container{
+    width: 90%;
+    height: 90%;
+    background-color: #1565c0F0;
+    border-radius: 15px;
+    overflow-y:auto;
+    color:white;
+    position: relative;
+}
+
+h1{
+    text-align: center;
+}
+
+.modal-close{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
 }
