@@ -1,10 +1,10 @@
 const mots = [
-    "sans précédent ",
+    "sans précédent",
     "inedit",
     "mayotte",
     "ensemble",
     "gouvernement",
-    "république ",
+    "république",
     "reuni",
     "reconstruction",
     "notre dame",
@@ -19,20 +19,20 @@ const mots = [
     "unis",
     "nation",
     "abstinence",
-    "serrer la ceinture ",
-    "difficile ",
+    "serrer la ceinture",
+    "difficile",
     "crise",
     "europe",
     "mondial",
     "conflit",
-    "solution ",
+    "solution",
     "pardon",
-    "capacité ",
+    "capacité",
     "nourrir",
     "mobiliser",
     "budget",
     "epoque",
-    "extrême ",
+    "extrême",
     "Patriote",
     "ensemble",
     "bloc",
@@ -47,58 +47,58 @@ const mots = [
     "authentique",
     "industrie",
     "ivresse",
-    "gauche ",
+    "gauche",
     "accord",
     "union",
     "compromis",
     "avancer",
     "futur",
-    "négociation ",
+    "négociation",
     "partenaire",
     "passer",
     "drame",
     "manifestation",
-    "rassemblement ",
+    "rassemblement",
     "pomice",
-    "éducation ",
-    "santé ",
-    "hospital ",
+    "éducation",
+    "santé",
+    "hospital",
     "covid",
-    "engagement ",
-    "mobilisation ",
+    "engagement",
+    "mobilisation",
     "territoire",
     "campagne",
     "province",
-    "populaire ",
+    "populaire",
     "dommage",
     "travail",
     "oublie",
     "compris",
-    "compliqué ",
+    "compliqué",
     "catastrophe",
-    "résolution ",
-    " persistance ",
-    "persévérance ",
+    "résolution",
+    " persistance",
+    "persévérance",
     "desastre",
-    "démocratie ",
+    "démocratie",
     "comprendre",
     "effort",
     "commun",
-    "participation ",
+    "participation",
     "piste",
     "voir",
     "profiter",
-    "immigration ",
+    "immigration",
     "mort",
     "americain",
-    "Conséquences ",
-    "étranger ",
+    "Conséquences",
+    "étranger",
     "saison",
     "erreur",
     "siecle",
     "aire",
-    "année ",
-    "avancée ",
+    "année",
+    "avancée",
     "respect",
     "loi",
     "note",
@@ -108,13 +108,13 @@ const mots = [
     "palestine",
     "israel",
     "ukraine",
-    "rencontre ",
+    "rencontre",
     "confession",
     "collectif",
     "soutien",
-    "sécurité ",
+    "sécurité",
     "outre mer",
-    "inflation ",
+    "inflation",
     "altruiste",
     "enfant",
     "religion",
@@ -141,10 +141,12 @@ if (!bingo) {
 
 let bingoDom = "";
 bingo.forEach(mot => {
-    bingoDom += `<div class="case">
+    bingoDom += `<div class="case" data-mot="${mot}">
         <div class="stabilo">${mot}</div>
     </div>`;
 })
+let n=0;
+bingo = bingo.map(mot => {return{mot:mot, position: n++}})
 
 document.querySelector(".bingo").innerHTML = bingoDom;
 
@@ -152,6 +154,9 @@ document.querySelectorAll(".case").forEach(mot => {
     mot.addEventListener("click", (e) => {
         if (!e.currentTarget.classList.contains("active")) {
             e.currentTarget.classList.add("active");
+            let current = bingo.find(b => b.mot === mot.dataset.mot);
+            current.active = true;
+            checkLine(current);
         }
     });
 });
@@ -163,3 +168,62 @@ document.querySelector(".info").addEventListener("click",()=> {
 document.querySelector(".modal-close").addEventListener("click",() => {
     document.querySelector(".modal").classList.remove("show");
 })
+
+function checkLine(current){
+    let startLine = (current.position - current.position%5);
+    let line = true;
+
+    for(i=startLine; i<startLine+5;i++){
+        let element = bingo.find(e => e.position === i);
+        if(!element.active){
+            line = false;
+        }
+    }
+    if(line){
+        for(i=startLine; i<startLine+5;i++){
+            let element = bingo.find(e => e.position === i);
+            document.querySelector(`.case[data-mot="${element.mot}"] .stabilo`).classList.add("line");
+        }
+    }
+
+    let startCol = current.position%5;
+    let col = true;
+    for(i=startCol; i<=startCol+20;i+=5){
+        let element = bingo.find(e => e.position === i);
+        if(!element.active){
+            col = false;
+        }
+    }
+    if(col){
+        for(i=startCol; i<=startCol+20;i+=5){
+            let element = bingo.find(e => e.position === i);
+            document.querySelector(`.case[data-mot="${element.mot}"] .stabilo`).classList.add("line");
+        }
+    }
+    let diag1 = true;
+    for(i=0;i<25;i+=6){
+        let element = bingo.find(e => e.position === i);
+        if(!element.active){
+            diag1 = false;
+        }
+    }
+    if(diag1){
+        for(i=0; i<=25;i+=6){
+            let element = bingo.find(e => e.position === i);
+            document.querySelector(`.case[data-mot="${element.mot}"] .stabilo`).classList.add("line");
+        }
+    }
+    let diag2 = true;
+    for(i=4;i<21;i+=4){
+        let element = bingo.find(e => e.position === i);
+        if(!element.active){
+            diag2 = false;
+        }
+    }
+    if(diag2){
+        for(i=4;i<21;i+=4){
+            let element = bingo.find(e => e.position === i);
+            document.querySelector(`.case[data-mot="${element.mot}"] .stabilo`).classList.add("line");
+        }
+    }
+}
